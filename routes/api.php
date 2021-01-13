@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +15,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => ['api', 'auth:api', 'throttle:60,1']], function () {
+/**
+ * Public routes
+ */
+Route::group(['middleware' => ['api', 'throttle:180,1']], function () {
+    Route::post('login', [AuthController::class, 'login']);
 
+    Route::put('users/create-or-update', [UserController::class, 'createOrUpdate']);
+});
+
+Route::group(['middleware' => ['api', 'auth:api', 'throttle:60,1']], function () {
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::get('validate', [AuthController::class, 'validateJwt']);
+
+    Route::apiResource('users', UserController::class)->except(['store', 'update']);
 });
