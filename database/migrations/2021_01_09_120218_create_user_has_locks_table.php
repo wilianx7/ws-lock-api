@@ -17,8 +17,6 @@ class CreateUserHasLocksTable extends Migration
             $table->integer('id', true);
             $table->integer('lock_id')->index();
             $table->integer('user_id')->index();
-            $table->timestamps();
-            $table->softDeletes();
         });
 
         Schema::table('user_has_locks', function (Blueprint $table) {
