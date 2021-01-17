@@ -11,7 +11,7 @@ class CreateOrUpdateUserAction
     {
         $user = User::findOrNew($userDTO->id);
 
-        if ($user->exists && !User::getAuthenticated()) {
+        if ($user->exists && !User::getAuthenticated()->id) {
             abort(401, 'Unauthorized action!');
         }
 

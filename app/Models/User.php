@@ -50,12 +50,12 @@ class User extends Authenticatable implements JWTSubject
         'remember_token',
     ];
 
-    public static function getAuthenticated(): ?User
+    public static function getAuthenticated(): User
     {
         /** @var ?User $authenticatedUser */
         $authenticatedUser = auth()->user();
 
-        return $authenticatedUser;
+        return $authenticatedUser ?? new User();
     }
 
     public function scopeWhereTerm(Builder $query, string $term)
