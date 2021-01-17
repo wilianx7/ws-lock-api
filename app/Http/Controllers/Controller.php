@@ -21,7 +21,7 @@ class Controller extends BaseController
         return explode(',', $ids);
     }
 
-    protected function find($model, string $id): Model
+    protected function find($model, string $id): ?Model
     {
         $include = $this->getInclude();
 
