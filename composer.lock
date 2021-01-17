@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "13e6a9fe892a61d72c240531bd54be5b",
+    "content-hash": "5fb46aeec1cc9a2c1215796a21004ba0",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -366,6 +366,48 @@
                 }
             ],
             "time": "2020-11-24T19:55:57+00:00"
+        },
+        {
+            "name": "dyrynda/laravel-cascade-soft-deletes",
+            "version": "4.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/michaeldyrynda/laravel-cascade-soft-deletes.git",
+                "reference": "dcfd120af3467901444a155ece03d8326efb53b3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/michaeldyrynda/laravel-cascade-soft-deletes/zipball/dcfd120af3467901444a155ece03d8326efb53b3",
+                "reference": "dcfd120af3467901444a155ece03d8326efb53b3",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^8.12",
+                "illuminate/events": "^8.12",
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.3"
+            },
+            "type": "utility",
+            "autoload": {
+                "psr-4": {
+                    "Dyrynda\\Database\\Support\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dyrynda",
+                    "email": "michael@dyrynda.com.au",
+                    "homepage": "https://dyrynda.com.au"
+                }
+            ],
+            "description": "Cascading deletes for Eloquent models that implement soft deletes",
+            "time": "2020-12-01T02:43:25+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -2490,6 +2532,77 @@
                 }
             ],
             "time": "2020-11-26T09:24:53+00:00"
+        },
+        {
+            "name": "spatie/enum",
+            "version": "3.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/enum.git",
+                "reference": "4d4f2ff8d778fcaacbe4c59edeccad9a1fb2bcac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/enum/zipball/4d4f2ff8d778fcaacbe4c59edeccad9a1fb2bcac",
+                "reference": "4d4f2ff8d778fcaacbe4c59edeccad9a1fb2bcac",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^7.4 || ^8.0"
+            },
+            "require-dev": {
+                "fakerphp/faker": "^1.9.1",
+                "larapack/dd": "^1.1",
+                "phpunit/phpunit": "^9.0",
+                "vimeo/psalm": "^4.3"
+            },
+            "suggest": {
+                "fakerphp/faker": "To use the enum faker provider",
+                "phpunit/phpunit": "To use the enum assertions"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Enum\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Roose",
+                    "email": "brent@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tom Witkowski",
+                    "email": "dev@gummibeer.de",
+                    "homepage": "https://gummibeer.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Enums",
+            "homepage": "https://github.com/spatie/enum",
+            "keywords": [
+                "enum",
+                "enumerable",
+                "spatie"
+            ],
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-01-13T12:07:52+00:00"
         },
         {
             "name": "spatie/laravel-query-builder",
