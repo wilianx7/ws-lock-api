@@ -2,7 +2,7 @@
 
 namespace App\Actions\User;
 
-use App\DTO\UserDTO;
+use App\DTOs\UserDTO;
 use App\Models\User;
 
 class CreateOrUpdateUserAction
