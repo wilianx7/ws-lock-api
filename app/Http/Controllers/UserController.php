@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\User\CreateOrUpdateUserAction;
-use App\DTO\UserDTO;
+use App\DTOs\UserDTO;
 use App\Http\Requests\CreateOrUpdateUserRequest;
 use App\Http\Resources\GenericResource;
 use App\Http\Resources\GenericResourceCollection;
@@ -36,6 +36,9 @@ class UserController extends Controller
                 'login',
                 AllowedFilter::exact('id'),
                 AllowedFilter::scope('term', 'whereTerm'),
+            ])
+            ->allowedIncludes([
+                'locks',
             ])
             ->with($request->input('with') ?? [])
             ->getQuery();
