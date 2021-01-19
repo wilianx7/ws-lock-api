@@ -33,15 +33,15 @@ class AuthController extends Controller
 
     public function logout()
     {
-        auth()->logout();
+        auth('api')->logout();
 
-        return response()->json(['message' => 'Successfully logged out'], 200);
+        return response()->json('', 200);
     }
 
     public function refresh()
     {
         /** @var JWTGuard $auth */
-        $auth = auth();
+        $auth = auth('api');
 
         $response = $this->loginAction->respondWithSuccess($auth->refresh());
 

@@ -53,7 +53,7 @@ class User extends Authenticatable implements JWTSubject
     public static function getAuthenticated(): User
     {
         /** @var ?User $authenticatedUser */
-        $authenticatedUser = auth()->user();
+        $authenticatedUser = auth('api')->user();
 
         return $authenticatedUser ?? new User();
     }
