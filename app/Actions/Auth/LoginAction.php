@@ -31,6 +31,8 @@ class LoginAction
     {
         $user = User::getAuthenticated();
 
+        $user->setRememberToken($token);
+
         return collect([
             'response' => [
                 'access_token' => $token,
