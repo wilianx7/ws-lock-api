@@ -48,7 +48,7 @@ abstract class BaseTestCase extends TestCase
         DB::rollBack();
     }
 
-    protected function authenticateUser(int $userId)
+    protected function authenticateUser(int $userId = 1)
     {
         $user = User::find($userId);
 
