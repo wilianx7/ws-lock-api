@@ -14,8 +14,8 @@ abstract class BaseResource extends JsonResource
     {
         $this->request = app()->make(Request::class);
 
-        if ($resource && method_exists($resource, 'loadRelations')) {
-            $resource = $resource->loadRelations($this->request->get('with'));
+        if ($resource && method_exists($resource, 'fresh') && $this->request->get('with')) {
+            $resource = $resource->fresh([$this->request->get('with')]);
         }
 
         parent::__construct($resource);
@@ -24,14 +24,5 @@ abstract class BaseResource extends JsonResource
     public function toArray($request): array
     {
         return parent::toArray($request);
-    }
-
-    protected function request()
-    {
-        if (!$this->request) {
-            $this->request = app()->make(Request::class);
-        }
-
-        return $this->request;
     }
 }
