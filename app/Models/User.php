@@ -72,7 +72,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function locks()
     {
-        return $this->belongsToMany(Lock::class, 'user_has_locks');
+        return $this->belongsToMany(Lock::class, 'user_has_locks')->withPivot('lock_name');
     }
 
     public function getJWTIdentifier()

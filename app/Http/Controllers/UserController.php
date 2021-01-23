@@ -40,8 +40,7 @@ class UserController extends Controller
             ->allowedIncludes([
                 'locks',
             ])
-            ->with($request->input('with') ?? [])
-            ->getQuery();
+            ->with($request->input('with') ?? []);
 
         return new GenericResourceCollection($users);
     }

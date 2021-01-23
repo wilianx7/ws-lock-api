@@ -24,8 +24,7 @@ class LockHistoryController extends Controller
                 'user',
                 'lock',
             ])
-            ->with($request->input('with') ?? [])
-            ->getQuery();
+            ->with($request->input('with') ?? []);
 
         return new GenericResourceCollection($lockHistories);
     }
