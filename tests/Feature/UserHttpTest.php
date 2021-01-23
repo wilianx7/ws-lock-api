@@ -37,11 +37,17 @@ class UserHttpTest extends BaseTestCase
 
             $response->assertJsonStructure(
                 [
-                    'data' => []
+                    'data' => [
+                        [
+                            'name',
+                            'login',
+                            'email',
+                        ]
+                    ]
                 ]
             );
 
-            $responseData = collect(json_decode($response->getContent())->data[0]);
+            $responseData = collect(json_decode($response->getContent())->data);
 
             $this->assertCount(2, $responseData);
             $this->assertEquals('admin', $responseData->get(0)->name);
