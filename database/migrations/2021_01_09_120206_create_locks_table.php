@@ -15,11 +15,17 @@ class CreateLocksTable extends Migration
     {
         Schema::create('locks', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->string('name');
+            $table->integer('created_by_user_id')->index();
             $table->string('mac_address')->unique();
             $table->string('state', 30)->default('LOCKED');
             $table->timestamps();
             $table->softDeletes();
+        });
+
+        Schema::table('locks', function (Blueprint $table) {
+            $table->foreign('created_by_user_id', 'fk_locks_to_created_user')
+                ->references('id')
+                ->on('users');
         });
     }
 

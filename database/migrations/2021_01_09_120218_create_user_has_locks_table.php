@@ -17,6 +17,7 @@ class CreateUserHasLocksTable extends Migration
             $table->integer('id', true);
             $table->integer('lock_id')->index();
             $table->integer('user_id')->index();
+            $table->string('lock_name');
         });
 
         Schema::table('user_has_locks', function (Blueprint $table) {

@@ -15,7 +15,7 @@ class CreateLockHistoriesTable extends Migration
     {
         Schema::create('lock_histories', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('user_id')->index();
+            $table->integer('user_id')->index()->nullable();
             $table->integer('lock_id')->index();
             $table->string('description');
             $table->timestamps();
