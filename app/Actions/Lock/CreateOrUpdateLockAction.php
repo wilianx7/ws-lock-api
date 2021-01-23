@@ -12,25 +12,24 @@ class CreateOrUpdateLockAction
     {
         $lock = Lock::findOrNew($lockDTO->id);
 
-        $lock->name = $lockDTO->name;
-
         if (!$lock->id) {
+            $lock->created_by_user_id = User::getAuthenticated()->id;
             $lock->mac_address = $lockDTO->mac_address;
+
+            $lock->save();
         }
 
-        $lock->save();
+        $this->syncUserLocks($lock, $lockDTO->name);
 
-        $this->syncUserLocks($lock);
-
-        return $lock;
+        return $lock->fresh();
     }
 
-    private function syncUserLocks(Lock $lock): void
+    private function syncUserLocks(Lock $lock, string $lockName): void
     {
         $authenticatedUser = User::getAuthenticated();
 
-        $userLocks = $authenticatedUser->locks->pluck('id');
+        $authenticatedUser->locks()->detach($lock->id);
 
-        $authenticatedUser->locks()->sync($userLocks->push($lock->id)->unique());
+        $authenticatedUser->locks()->attach($lock->id, ['lock_name' => $lockName]);
     }
 }
