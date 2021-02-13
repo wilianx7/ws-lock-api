@@ -3,10 +3,12 @@
 namespace Tests\Base;
 
 use App\Actions\Lock\CreateOrUpdateLockAction;
+use App\Actions\LockHistory\CreateLockHistoryAction;
 use App\Actions\User\CreateOrUpdateUserAction;
 use App\DTOs\LockDTO;
 use App\DTOs\UserDTO;
 use App\Models\Lock;
+use App\Models\LockHistory;
 use App\Models\User;
 use Illuminate\Support\Collection;
 
@@ -50,5 +52,12 @@ trait BaseTestMethods
         $lockDTO = LockDTO::fromCollection(collect($this->generateLockPayload($data)['lock_data']));
 
         return $createOrUpdateLockAction->execute($lockDTO);
+    }
+
+    protected function createLockHistory(Lock $lock, string $description): LockHistory
+    {
+        $createLockHistoryAction = app()->make(CreateLockHistoryAction::class);
+
+        return $createLockHistoryAction->execute($lock, $description);
     }
 }
