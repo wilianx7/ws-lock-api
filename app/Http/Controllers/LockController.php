@@ -25,7 +25,11 @@ class LockController extends Controller
 
     public function index(Request $request)
     {
-        $users = QueryBuilder::for(Lock::class)
+        $withRelations = $request->input('with_relations')
+            ? explode(',', $request->input('with_relations'))
+            : [];
+
+        $locks = QueryBuilder::for(Lock::class)
             ->allowedSorts([
                 'name',
             ])
@@ -40,9 +44,9 @@ class LockController extends Controller
                 'users',
                 'createdByUser',
             ])
-            ->with($request->input('with') ?? []);
+            ->with($withRelations);
 
-        return new GenericResourceCollection($users);
+        return new GenericResourceCollection($locks);
     }
 
     public function createOrUpdate(CreateOrUpdateLockRequest $request)

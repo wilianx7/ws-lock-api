@@ -12,6 +12,10 @@ class LockHistoryController extends Controller
 {
     public function index(Request $request)
     {
+        $withRelations = $request->input('with_relations')
+            ? explode(',', $request->input('with_relations'))
+            : [];
+
         $lockHistories = QueryBuilder::for(LockHistory::class)
             ->allowedFilters([
                 'description',
@@ -24,7 +28,7 @@ class LockHistoryController extends Controller
                 'user',
                 'lock',
             ])
-            ->with($request->input('with') ?? []);
+            ->with($withRelations);
 
         return new GenericResourceCollection($lockHistories);
     }

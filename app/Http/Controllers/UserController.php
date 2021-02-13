@@ -23,6 +23,10 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
+        $withRelations = $request->input('with_relations')
+            ? explode(',', $request->input('with_relations'))
+            : [];
+
         $users = QueryBuilder::for(User::class)
             ->allowedSorts([
                 'id',
@@ -40,7 +44,7 @@ class UserController extends Controller
             ->allowedIncludes([
                 'locks',
             ])
-            ->with($request->input('with') ?? []);
+            ->with($withRelations);
 
         return new GenericResourceCollection($users);
     }

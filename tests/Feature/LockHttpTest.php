@@ -39,7 +39,7 @@ class LockHttpTest extends BaseTestCase
 
             $response = $this->authenticatedRequest()
                 ->withHeader('Accept', 'application/json')
-                ->get("locks?with=users");
+                ->get("locks?with_relations=users");
 
             $response->assertStatus(200);
 
