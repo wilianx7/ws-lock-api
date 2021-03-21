@@ -55,7 +55,7 @@ class UserController extends Controller
 
         $user = $this->createOrUpdateUserAction->execute($userDTO);
 
-        return new GenericResource($user);
+        return (new GenericResource($user))->toJson();
     }
 
     public function show($id)
@@ -67,6 +67,6 @@ class UserController extends Controller
     {
         User::destroy($this->getIds('user'));
 
-        return response(null, 204);
+        return response(true, 204);
     }
 }
