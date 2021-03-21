@@ -5,6 +5,7 @@ use App\Http\Controllers\LockController;
 use App\Http\Controllers\LockHistoryController;
 use App\Http\Controllers\MQTTController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ValidationController;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -14,6 +15,8 @@ Route::group(['middleware' => ['api', 'throttle:180,1']], function () {
     Route::post('login', [AuthController::class, 'login']);
 
     Route::put('users/create-or-update', [UserController::class, 'createOrUpdate']);
+
+    Route::put('validations/unique', [ValidationController::class, 'unique']);
 });
 
 /**
