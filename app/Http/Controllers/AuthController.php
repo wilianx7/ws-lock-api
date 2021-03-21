@@ -19,11 +19,11 @@ class AuthController extends Controller
     {
         $response = $this->loginAction->execute($request->input('login'), $request->input('password'));
 
-        if ($response->get('status') === 401) {
-            return response()->json($response->get('response'), 401);
+        if (!$response) {
+            return response()->json('Unauthorized access', 401);
         }
 
-        return response()->json($response->get('response'), 200);
+        return response()->json($response, 200);
     }
 
     public function validateJwt()
@@ -43,8 +43,8 @@ class AuthController extends Controller
         /** @var JWTGuard $auth */
         $auth = auth('api');
 
-        $response = $this->loginAction->respondWithSuccess($auth->refresh());
+        $response = $this->loginAction->makeSuccessResponse($auth->refresh());
 
-        return response()->json($response->get('response'), 200);
+        return response()->json($response, 200);
     }
 }

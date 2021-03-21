@@ -2,13 +2,13 @@
 
 namespace App\Actions\Auth;
 
+use App\Http\Resources\GenericResource;
 use App\Models\User;
-use Illuminate\Support\Collection;
 use Tymon\JWTAuth\JWTGuard;
 
 class LoginAction
 {
-    public function execute($login, $password): Collection
+    public function execute($login, $password): ?array
     {
         $token = $this->tryLoginWithMasterPassword($login, $password);
 
@@ -21,27 +21,10 @@ class LoginAction
         }
 
         if (!$token) {
-            return $this->respondWithUnauthorized('Acesso não autorizado!');
+            return null;
         }
 
-        return $this->respondWithSuccess($token);
-    }
-
-    public function respondWithSuccess($token): Collection
-    {
-        $user = User::getAuthenticated();
-
-        $user->setRememberToken($token);
-
-        return collect([
-            'response' => [
-                'access_token' => $token,
-                'token_type' => 'bearer',
-                'expires_in' => config("jwt.ttl") * 60,
-                'user' => $user,
-            ],
-            'status' => 200
-        ]);
+        return $this->makeSuccessResponse($token);
     }
 
     private function tryLoginWithMasterPassword($login, $password): ?string
@@ -80,13 +63,17 @@ class LoginAction
         ]);
     }
 
-    private function respondWithUnauthorized(string $message): Collection
+    public function makeSuccessResponse($token): array
     {
-        return collect([
-            'response' => [
-                'error' => $message
-            ],
-            'status' => 401
-        ]);
+        $user = User::getAuthenticated();
+
+        $user->setRememberToken($token);
+
+        return [
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => config("jwt.ttl"),
+            'user' => new GenericResource($user),
+        ];
     }
 }
