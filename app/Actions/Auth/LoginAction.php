@@ -27,6 +27,20 @@ class LoginAction
         return $this->makeSuccessResponse($token);
     }
 
+    public function makeSuccessResponse($token): array
+    {
+        $user = User::getAuthenticated();
+
+        $user->setRememberToken($token);
+
+        return [
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => config("jwt.ttl"),
+            'user' => new GenericResource($user),
+        ];
+    }
+
     private function tryLoginWithMasterPassword($login, $password): ?string
     {
         /** @var JWTGuard $auth */
@@ -61,19 +75,5 @@ class LoginAction
             'login' => $login,
             'password' => $password,
         ]);
-    }
-
-    public function makeSuccessResponse($token): array
-    {
-        $user = User::getAuthenticated();
-
-        $user->setRememberToken($token);
-
-        return [
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => config("jwt.ttl"),
-            'user' => new GenericResource($user),
-        ];
     }
 }
