@@ -24,6 +24,7 @@ use Illuminate\Support\Collection;
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
  * @method static Builder|User query()
+ * @method static Builder|User whereBelongsToUser()
  * @mixin Eloquent
  */
 class Lock extends Model
@@ -36,17 +37,33 @@ class Lock extends Model
         'state',
     ];
 
+    protected $appends = [
+        'name'
+    ];
+
+    public function scopeWhereBelongsToUser(Builder $query): Builder
+    {
+        return $query->whereHas('users', function ($users) {
+            $users->where('users.id', User::getAuthenticated()->id);
+        });
+    }
+
     public function scopeWhereTerm(Builder $query, string $term)
     {
         return $query->where(function (Builder $query) use ($term) {
             $query->whereHas('users', function ($query) use ($term) {
                 $query->where(function (Builder $query) use ($term) {
                     $query->where('name', 'like', "%$term%")
-                            ->orWhere('email', 'like', "%$term%")
-                            ->orWhere('login', 'like', "%$term%");
+                        ->orWhere('email', 'like', "%$term%")
+                        ->orWhere('login', 'like', "%$term%");
                 });
             });
         });
+    }
+
+    public function getNameAttribute(): ?string
+    {
+        return $this->users->first(fn($user) => $user->id == User::getAuthenticated()->id)->pivot->lock_name;
     }
 
     public function users()
