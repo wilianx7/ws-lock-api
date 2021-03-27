@@ -29,12 +29,8 @@ class LockController extends Controller
             ? explode(',', $request->input('with_relations'))
             : [];
 
-        $locks = QueryBuilder::for(Lock::class)
-            ->allowedSorts([
-                'name',
-            ])
+        $locks = QueryBuilder::for(Lock::whereBelongsToUser())
             ->allowedFilters([
-                'name',
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('created_by_user_id'),
                 AllowedFilter::exact('mac_address'),
@@ -68,15 +64,18 @@ class LockController extends Controller
         foreach ($this->getIds('lock') as $id) {
             $lockToDestroy = Lock::findOrFail($id);
 
-            if ($lockToDestroy->created_by_user_id != User::getAuthenticated()->id) {
-                abort(401, 'Unauthorized action!');
+            if ($lockToDestroy->created_by_user_id == User::getAuthenticated()->id) {
+                $lockToDestroy->delete();
+
+                DB::table('user_has_locks')
+                    ->where('lock_id', $id)
+                    ->delete();
+            } else {
+                DB::table('user_has_locks')
+                    ->where('lock_id', $id)
+                    ->where('user_id', User::getAuthenticated()->id)
+                    ->delete();
             }
-
-            $lockToDestroy->delete();
-
-            DB::table('user_has_locks')
-                ->where('lock_id', $id)
-                ->delete();
         }
 
         return response(null, 204);
