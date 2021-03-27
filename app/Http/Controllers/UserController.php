@@ -27,7 +27,7 @@ class UserController extends Controller
             ? explode(',', $request->input('with_relations'))
             : [];
 
-        $users = QueryBuilder::for(User::class)
+        $users = QueryBuilder::for(User::whereDoesntAuthenticatedUser())
             ->allowedSorts([
                 'id',
                 'name',
