@@ -49,9 +49,8 @@ class UserHttpTest extends BaseTestCase
 
             $responseData = collect(json_decode($response->getContent())->data);
 
-            $this->assertCount(2, $responseData);
-            $this->assertEquals('admin', $responseData->get(0)->name);
-            $this->assertEquals('User A', $responseData->get(1)->name);
+            $this->assertCount(1, $responseData);
+            $this->assertEquals('User A', $responseData->get(0)->name);
         });
     }
 
@@ -136,22 +135,20 @@ class UserHttpTest extends BaseTestCase
             $response = $this->withHeader('Accept', 'application/json')
                 ->put('users/create-or-update', $userPayload);
 
-            $response->assertStatus(201);
+            $response->assertStatus(200);
 
             $response->assertJsonStructure(
                 [
-                    'data' => [
-                        'id',
-                        'name',
-                        'login',
-                        'email',
-                        'updated_at',
-                        'created_at',
-                    ]
+                    'id',
+                    'name',
+                    'login',
+                    'email',
+                    'updated_at',
+                    'created_at',
                 ]
             );
 
-            $userData = json_decode($response->getContent())->data;
+            $userData = json_decode($response->getContent());
 
             $this->assertNotNull($userData->id);
             $this->assertNotNull($userData->created_at);
@@ -210,9 +207,9 @@ class UserHttpTest extends BaseTestCase
                 ->withHeader('Accept', 'application/json')
                 ->put('users/create-or-update', $userPayload);
 
-            $response->assertStatus(201);
+            $response->assertStatus(200);
 
-            $userData = json_decode($response->getContent())->data;
+            $userData = json_decode($response->getContent());
 
             $this->assertNotNull($userData->id);
             $this->assertEquals('User A', $userData->name);
@@ -252,18 +249,16 @@ class UserHttpTest extends BaseTestCase
 
             $response->assertJsonStructure(
                 [
-                    'data' => [
-                        'id',
-                        'name',
-                        'login',
-                        'email',
-                        'updated_at',
-                        'created_at',
-                    ]
+                    'id',
+                    'name',
+                    'login',
+                    'email',
+                    'updated_at',
+                    'created_at',
                 ]
             );
 
-            $userData = json_decode($response->getContent())->data;
+            $userData = json_decode($response->getContent());
 
             $this->assertEquals($userA->id, $userData->id);
             $this->assertEquals('User A Updated', $userData->name);

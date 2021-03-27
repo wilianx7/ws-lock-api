@@ -56,12 +56,6 @@ class AuthHttpTest extends BaseTestCase
 
             $response->assertStatus(401);
 
-            $response->assertJsonStructure(
-                [
-                    'error'
-                ]
-            );
-
             $this->assertNull(User::getAuthenticated()->id);
         });
     }

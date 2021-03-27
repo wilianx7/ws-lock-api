@@ -34,6 +34,7 @@ trait BaseTestMethods
                 'id' => $data->get('id'),
                 'name' => $data->get('name'),
                 'mac_address' => $data->get('mac_address'),
+                'users' => $data->get('users')
             ]
         ];
     }
