@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DB;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -28,9 +29,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property-read Collection|Lock[] $locks
  * @property-read DatabaseNotificationCollection|DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
- * @method static Builder|User newModelQuery()
- * @method static Builder|User newQuery()
  * @method static Builder|User query()
+ * @method static Builder|User whereDoesntAuthenticatedUser()
  * @mixin Eloquent
  */
 class User extends Authenticatable implements JWTSubject
@@ -50,6 +50,10 @@ class User extends Authenticatable implements JWTSubject
         'remember_token',
     ];
 
+    protected $appends = [
+        'has_lock_access'
+    ];
+
     public static function getAuthenticated(): User
     {
         /** @var ?User $authenticatedUser */
@@ -62,17 +66,36 @@ class User extends Authenticatable implements JWTSubject
     {
         return $query->where(function (Builder $query) use ($term) {
             $query->where('name', 'like', "%$term%")
-            ->orWhere('email', 'like', "%$term%")
-            ->orWhere('login', 'like', "%$term%")
+                ->orWhere('email', 'like', "%$term%")
+                ->orWhere('login', 'like', "%$term%")
                 ->orWhereHas('locks', function ($query) use ($term) {
                     $query->where('name', 'like', "%$term%");
                 });
         });
     }
 
+    public function scopeWhereDoesntAuthenticatedUser(Builder $query): Builder
+    {
+        return $query->where('id', '!=', User::getAuthenticated()->id);
+    }
+
     public function locks()
     {
         return $this->belongsToMany(Lock::class, 'user_has_locks')->withPivot('lock_name');
+    }
+
+    public function getHasLockAccessAttribute(): bool
+    {
+        $lockId = request()->request->filter('has_access_to_lock_id');
+
+        if ($lockId) {
+            return DB::table('user_has_locks')
+                ->where('user_id', $this->id)
+                ->where('lock_id', $lockId)
+                ->exists();
+        }
+
+        return false;
     }
 
     public function getJWTIdentifier()
