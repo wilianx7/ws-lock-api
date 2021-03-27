@@ -9,7 +9,8 @@ class LockDTO extends DataTransferObject
 {
     public ?int $id;
     public string $name;
-    public string $mac_address;
+    public ?string $mac_address;
+    public Collection $users;
 
     public static function fromCollection(Collection $data): self
     {
@@ -17,6 +18,7 @@ class LockDTO extends DataTransferObject
             'id' => intval($data->get('id')) ?: null,
             'name' => $data->get('name'),
             'mac_address' => $data->get('mac_address'),
+            'users' => collect($data->get('users')),
         ]);
     }
 }
