@@ -38,10 +38,10 @@ class MQTTController extends Controller
                 'state' => LockStateEnum::LOCKED()
             ]);
 
-            $this->createLockHistoryAction->execute($lock, 'Fechadura trancada.');
+            $this->createLockHistoryAction->execute($lock, 'Fechadura trancada!');
         }
 
-        return response($result ? 'success' : 'failed', 200);
+        return response()->json($result ? 'success' : 'failed');
     }
 
     public function openDoor(MQTTRequest $request)
@@ -61,9 +61,9 @@ class MQTTController extends Controller
                 'state' => LockStateEnum::OPENED()
             ]);
 
-            $this->createLockHistoryAction->execute($lock, 'Fechadura aberta.');
+            $this->createLockHistoryAction->execute($lock, 'Fechadura aberta!');
         }
 
-        return response($result ? 'success' : 'failed', 200);
+        return response()->json($result ? 'success' : 'failed');
     }
 }

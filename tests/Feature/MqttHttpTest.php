@@ -39,7 +39,7 @@ class MqttHttpTest extends BaseTestCase
             $this->assertEquals(LockStateEnum::OPENED(), $lock->fresh()->state);
             $this->assertEquals(LockHistory::first()->lock_id, $lock->id);
             $this->assertEquals(LockHistory::first()->user_id, User::getAuthenticated()->id);
-            $this->assertEquals('Fechadura aberta.', LockHistory::first()->description);
+            $this->assertEquals('Fechadura aberta!', LockHistory::first()->description);
         });
     }
 
@@ -63,7 +63,7 @@ class MqttHttpTest extends BaseTestCase
             $this->assertEquals(LockStateEnum::LOCKED(), $lock->fresh()->state);
             $this->assertEquals(LockHistory::first()->lock_id, $lock->id);
             $this->assertEquals(LockHistory::first()->user_id, User::getAuthenticated()->id);
-            $this->assertEquals('Fechadura trancada.', LockHistory::first()->description);
+            $this->assertEquals('Fechadura trancada!', LockHistory::first()->description);
         });
     }
 
