@@ -16,10 +16,12 @@ use Illuminate\Support\Collection;
  * @property int $created_by_user_id
  * @property string $mac_address
  * @property string $state
+ * @property string $name
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property string|null $deleted_at
  * @property-read Collection|User[] $users
+ * @property-read Collection|LockHistory[] $lockHistories
  * @property-read User $createdByUser
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
@@ -38,7 +40,7 @@ class Lock extends Model
     ];
 
     protected $appends = [
-        'name'
+        'name',
     ];
 
     public function scopeWhereBelongsToUser(Builder $query): Builder
@@ -63,7 +65,7 @@ class Lock extends Model
 
     public function getNameAttribute(): ?string
     {
-        return $this->users->first(fn($user) => $user->id == User::getAuthenticated()->id)->pivot->lock_name;
+        return $this->users->first(fn ($user) => $user->id == User::getAuthenticated()->id)->pivot->lock_name;
     }
 
     public function users()
@@ -74,5 +76,17 @@ class Lock extends Model
     public function createdByUser()
     {
         return $this->belongsTo(User::class, 'created_by_user_id')->withDefault();
+    }
+
+    public function lastLockHistory()
+    {
+        return $this->hasOne(LockHistory::class)
+            ->orderBy('created_at', 'DESC')
+            ->withDefault();
+    }
+
+    public function lockHistories()
+    {
+        return $this->hasMany(LockHistory::class);
     }
 }

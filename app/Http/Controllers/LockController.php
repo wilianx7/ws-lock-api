@@ -39,6 +39,8 @@ class LockController extends Controller
             ->allowedIncludes([
                 'users',
                 'createdByUser',
+                'lastLockHistory.user',
+                'lockHistories.user',
             ])
             ->with($withRelations);
 
