@@ -23,6 +23,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|LockHistory newModelQuery()
  * @method static Builder|LockHistory newQuery()
  * @method static Builder|LockHistory query()
+ * @method static Builder|User whereBelongsToUserLocks()
  * @mixin Eloquent
  */
 class LockHistory extends Model
@@ -34,6 +35,13 @@ class LockHistory extends Model
         'lock_id',
         'description',
     ];
+
+    public function scopeWhereBelongsToUserLocks(Builder $query): Builder
+    {
+        return $query->whereHas('lock.users', function ($users) {
+            $users->where('users.id', User::getAuthenticated()->id);
+        });
+    }
 
     public function scopeWhereTerm(Builder $query, string $term)
     {

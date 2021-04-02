@@ -16,7 +16,8 @@ class LockHistoryController extends Controller
             ? explode(',', $request->input('with_relations'))
             : [];
 
-        $lockHistories = QueryBuilder::for(LockHistory::class)
+        $lockHistories = QueryBuilder::for(LockHistory::whereBelongsToUserLocks())
+            ->orderBy('created_at', 'DESC')
             ->allowedFilters([
                 'description',
                 AllowedFilter::exact('id'),
