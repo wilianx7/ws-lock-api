@@ -219,8 +219,6 @@ class UserHttpTest extends BaseTestCase
     public function test_it_can_update_user_when_authenticated(): void
     {
         $this->transaction(function () {
-            $this->authenticateUser();
-
             $userA = $this->createOrUpdateUser(collect(
                 [
                     'name' => 'User A',
@@ -231,6 +229,8 @@ class UserHttpTest extends BaseTestCase
             ));
 
             $this->assertNotNull($userA->id);
+
+            $this->authenticateUser($userA->id);
 
             $userPayload = $this->generateUserPayload(collect(
                 [

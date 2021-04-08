@@ -11,7 +11,7 @@ class CreateOrUpdateUserAction
     {
         $user = User::findOrNew($userDTO->id);
 
-        if ($user->exists && !User::getAuthenticated()->id) {
+        if ($user->exists && User::getAuthenticated()->id != $userDTO->id) {
             abort(401, 'Unauthorized action!');
         }
 
@@ -24,7 +24,7 @@ class CreateOrUpdateUserAction
         $user->login = $userDTO->login;
         $user->email = $userDTO->email;
 
-        if ($userDTO->password) {
+        if ($userDTO->password && $userDTO->password != 'null') {
             $user->password = bcrypt($userDTO->password);
         }
 
