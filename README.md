@@ -1,62 +1,130 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# ws-lock-api
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Essas instruções farão com que você tenha uma cópia do projeto em execução na sua máquina local para fins de desenvolvimento e teste.
 
-## About Laravel
+## Pré-requisitos
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+* PHP >= 7.4 [link](https://www.php.net/downloads.php);
+* Composer [link](https://getcomposer.org/download/);
+* MySQL [link](https://www.mysql.com/downloads/);
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Configurando o projeto
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Todos comandos citados a seguir, devem ser executados na linha de comando da sua máquina. Portanto, navegue até a pasta do projeto para poder executar os comandos abaixo especificados:
 
-## Learning Laravel
+```php
+composer install
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Com um paralelo ao JavaScript, esse comando funciona como o NPM, o "composer install" vai instalar todas as dependências do Laravel necessárias para executar o projeto em sua máquina
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+A seguir, execute o seguinte comando:
 
-## Laravel Sponsors
+**Mac/Linux:**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```php
+cp .env.example .env 
+```
 
-### Premium Partners
+**Windows:**
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/)**
-- **[OP.GG](https://op.gg)**
+```php
+copy .env.example .env 
+```
 
-## Contributing
+Este comando, vai criar um outro arquivo de nome '.env'. É esse arquivo que conterá as variaveis de ambiente do projeto.
+Para mais informações clique [aqui](https://laravel.com/docs/8.x/configuration#environment-configuration)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+A seguir, execute o seguinte comando:
 
-## Code of Conduct
+```php
+php artisan key:generate
+```
+Este comando vai gerar uma chave no arquivo '.env' que permitira rodar o projeto.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+O comando abaixo, gera um token no arquivo .env que será utilizado como key pair com o Token de cada usuário autenticado.
+```php
+php artisan jwt:secret
+```
 
-## Security Vulnerabilities
+Depois de executar os comandos acima, entre no arquivo .env e faça a sua configuração com os dados do banco (DB_DATABASE, DB_USERNAME, DB_PASSWORD) e outros.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Após configurar as variáveis no arquivo .env, execute o seguinte comando para salvar as alterações:
 
-## License
+```php
+php artisan config:cache
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Configurando o banco de dados
+
+**Para prosseguir com os próximos passos, você deverá ter em sua máquina um schema no banco de dados com o nome especificado no .env (DB_DATABASE).**
+
+Uma vez que o .env está configurado e salvo com o comando de cache, execute o seguinte comando:
+
+```php
+php artisan migrate --seed
+```
+
+Esse comando irá criar as tabelas do projeto em seu banco de dados especificado no .env e um usuário padrão com os dados:
+**Login:** admin
+**Senha:** p#mB2%f;<cnc(Vx:
+
+## Executando a API
+
+Para rodar a API e testar o aplicativo localmente, você precisará obter o endereço IP da sua máquina e liberar o acesso externo da porta 9000.
+
+Após isso, execute o seguinte comando para iniciar o servidor:
+
+```php
+php artisan serve --host=MEU_IP (substituir pelo seu IP) --port=9000 
+```
+
+## Executando PhpUnit
+
+Para rodar os testes unitários do PhpUnit, primeiramente você deve parar a execução do servidor. Após isso, execute o comando:
+
+```php
+php artisan dev:prepare-env
+```
+
+Esse comando irá preparar o ambiente de testes da API.
+
+Em seguida, para iniciar os testes execute:
+
+```php
+php artisan test
+```
+
+Com isso, os testes serão realizados e os resultados exibidos no console.
+
+**Para voltar a utilizar a API como servidor, você deverá rodar o comando:**
+
+```php
+php artisan dev:prepare-env
+```
+
+# Servidor MQTT
+
+Para comunicação entre a API e os microcontroladores (ESP8266) instalados em cada fechadura, se faz necessária a utilização de um servidor MQTT. Portanto, a seguir serão descritos os passos para instalação e configuração do mesmo.
+
+## Linux
+
+No Linux, o mosquitto fica instalado no diretório /etc/mosquitto. Nesse diretório, há um arquivo chamado "acl" que contém todos os usuário permitidos no servidor, bem como as regras para postagem e subscrição nos tópicos. Nessa etapa, você pode configurar seu MQTT server como preferir ou utilizar os seguintes arquivos pré configurados:
+
+[mosquitto-configuration.zip](https://github.com/wilianx7/ws-lock-api/files/6290848/mosquitto-configuration.zip)
+
+**Faça a extração dos arquivos e cole no diretório /etc/mosquitto**
+
+Após esse procedimento, execute o seguinte comando:
+
+```
+sudo systemctl restart mosquitto
+```
+
+A seguir, você precisará informar as configurações do MQTT na sua API Laravel. Para isso, navegue até o arquivo .env da API e substitua as seguintes chaves:
+
+![image](https://user-images.githubusercontent.com/42422976/114285960-6eec7f80-9a31-11eb-916c-8d5556277ca5.png)
+
+No caso de ter utilizado os arquivos pré configurados acima, basta alterar o MQTT_HOST para o IP da sua máquina.
+
+**Lembre-se:** após cada alteração feita no .env, o comando ```php artisan config:cache``` deve ser executado e o servidor reiniciado.
