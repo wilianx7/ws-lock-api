@@ -105,11 +105,11 @@ php artisan dev:prepare-env
 
 # Servidor MQTT
 
-Para comunicação entre a API e os microcontroladores (ESP8266) instalados em cada fechadura, se faz necessária a utilização de um servidor MQTT. Portanto, a seguir serão descritos os passos para instalação e configuração do mesmo.
+Para comunicação entre a API e os microcontroladores (ESP8266) instalados em cada fechadura, se faz necessária a utilização de um servidor MQTT. Portanto, a seguir serão descritos os passos para instalação e configuração do mesmo. [link](https://mosquitto.org/)
 
 ## Linux
 
-No Linux, o mosquitto fica instalado no diretório /etc/mosquitto. Nesse diretório, há um arquivo chamado "acl" que contém todos os usuário permitidos no servidor, bem como as regras para postagem e subscrição nos tópicos. Nessa etapa, você pode configurar seu MQTT server como preferir ou utilizar os seguintes arquivos pré configurados:
+No Linux, o mosquitto fica instalado no diretório /etc/mosquitto. Nesse diretório, há um arquivo chamado "acl" que contém todos os usuários permitidos no servidor, bem como as regras para postagem e subscrição nos tópicos. Nessa etapa, você pode configurar seu MQTT server como preferir ou utilizar os seguintes arquivos pré configurados:
 
 [mosquitto-configuration.zip](https://github.com/wilianx7/ws-lock-api/files/6290848/mosquitto-configuration.zip)
 
