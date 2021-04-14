@@ -12,6 +12,14 @@ Essas instruções farão com que você tenha uma cópia do projeto em execuçã
 
 Todos comandos citados a seguir, devem ser executados na linha de comando da sua máquina. Portanto, navegue até a pasta do projeto para poder executar os comandos abaixo especificados:
 
+Primeiramente, será necessário instalar o Laravel de maneira global:
+
+```
+composer global require laravel/installer
+```
+
+Após, execute:
+
 ```php
 composer install
 ```
