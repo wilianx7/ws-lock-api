@@ -15,7 +15,7 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
-        "salmanzafar/laravel-mqtt": "^2.0",
+        "salmanzafar/laravel-mqtt": "2.0.7",
         "spatie/data-transfer-object": "^2.6",
         "spatie/enum": "^3.7",
         "spatie/laravel-query-builder": "^3.3",
